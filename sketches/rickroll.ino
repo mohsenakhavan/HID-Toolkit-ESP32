@@ -1,15 +1,19 @@
-// HID Payload 9: Rickroll with YouTube Link
-#include "Arduino.h"
-#include "USB.h"
-#include "USBHIDKeyboard.h"
-
+#include <USBHIDKeyboard.h>
 USBHIDKeyboard Keyboard;
 
 void setup() {
-    USB.begin();
-    Keyboard.begin();
-    delay(2000);
-    Keyboard.println("start https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+  Keyboard.begin();
+  delay(3000);
+  Keyboard.press(KEY_LEFT_GUI);
+  Keyboard.press('r');
+  Keyboard.releaseAll();
+  delay(500);
+  Keyboard.println("start https://youtu.be/dQw4w9WgXcQ");
+  delay(1000);
+  // تمامی پنجره‌ها را مینیمایز میکند (اختیاری)
+  Keyboard.press(KEY_LEFT_GUI);
+  Keyboard.press('m');
+  Keyboard.releaseAll();
 }
 
 void loop() {}
